@@ -1,0 +1,83 @@
+<?php
+/**
+ * MageINIC
+ * Copyright (C) 2023 MageINIC <support@mageinic.com>
+ *
+ * NOTICE OF LICENSE
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see https://opensource.org/licenses/gpl-3.0.html.
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category MageINIC
+ * @package Hyva_MageINICProductAttachment
+ * @copyright Copyright (c) 2023 MageINIC (https://www.mageinic.com/)
+ * @license https://opensource.org/licenses/gpl-3.0.html GNU General Public License,version 3 (GPL-3.0)
+ * @author MageINIC <support@mageinic.com>
+ */
+
+use Hyva\MageINICProductAttachment\ViewModel\FileIcons;
+use MageINIC\ProductAttachment\ViewModel\ProductAttachment;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\CurrentProduct;
+
+/** @var Template $block * */
+/** @var ViewModelRegistry $viewModels */
+/** @var Escaper $escaper */
+
+$viewModel = $viewModels->require(ProductAttachment::class);
+$currentProduct = $viewModels->require(CurrentProduct::class);
+$productId = $currentProduct->get()->getId();
+$attachmentcollection['attachments'] = $viewModel->getProductAttachment($productId);
+$icons = $viewModels->require(FileIcons::class);
+?>
+<?php if ($productId): ?>
+    <?php if ($attachmentcollection): ?>
+        <div class="product-attachments">
+            <div x-data="<?= htmlspecialchars(json_encode($attachmentcollection)); ?>">
+                <template x-for=" attachment in attachments" :key="attachment.attachment_id">
+                    <div class="downloadable-attachment flex items-center mb-3" :class=attachment.extension>
+                        <template x-if="attachment.extension === 'pdf'">
+                            <span class="w-[25px] h-[25px] mr-4">
+                            <?= $icons->renderHtml('pdf') ?>
+                            </span>
+                        </template>
+                        <template x-if="attachment.extension === 'csv'">
+                            <span class="w-[25px] h-[25px] mr-4">
+                            <?= $icons->renderHtml('csv') ?>
+                            </span>
+                        </template>
+                        <template x-if="attachment.extension === 'doc'">
+                            <span class="w-[25px] h-[25px] mr-4">
+                            <?= $icons->renderHtml('word') ?>
+                            </span>
+                        </template>
+                        <template x-if="attachment.extension === 'txt'">
+                            <span class="w-[25px] h-[25px] mr-4">
+                            <?= $icons->renderHtml('txt') ?>
+                            </span>
+                        </template>
+                        <template x-if="attachment.extension === 'pptx'">
+                            <span class="w-[25px] h-[25px] mr-4">
+                            <?= $icons->renderHtml('ppt') ?>
+                            </span>
+                        </template>
+                        <a class="download text-sm font-normal text-[#575757]" :download=attachment.file_name
+                           :href=attachment.uploaded_file
+                           x-text=attachment.name>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

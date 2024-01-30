@@ -1,0 +1,30 @@
+{
+    "name": "mageinic/hyva-product-attachment",
+    "description": "Hyva Product Attachment by MageINIC, Enhance your product with the Magento 2 Product Attachment extension. Seamlessly upload and display informative CSV, DOC, PPTx, and PDF files on product detail pages. Provide customers with valuable resources, such as manuals, guides, and specifications, to boost their confidence and make informed purchase decisions.",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "version": "1.0.0",
+    "require": {
+        "magento/framework": "*",
+        "mageinic/product-attachment": "1.0.*",
+        "hyva-themes/magento2-compat-module-fallback": "*"
+    },
+    "authors": [
+        {
+            "name": "MageINIC",
+            "email": "support@mageinic.com",
+            "homepage": "https://www.mageinic.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Hyva\\MageINICProductAttachment\\": ""
+        }
+    }
+}
